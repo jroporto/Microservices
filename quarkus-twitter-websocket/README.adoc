@@ -1,0 +1,59 @@
+= Quarkus-twitter-websocket
+
+Programa que 
+
+=== Arrancar la aplicación en modo Desarrollo con Hot-Reload
+
+[source,shell]
+----
+$ mvn clean compile quarkus:dev -Denforcer.skip=true
+----
+Una vez que arranque la aplicación, abrid un navegador donde se visualizará los tweets encontrados
+----
+$ localhost:8080/index.html
+----
+
+=== Empaquetar la aplicación y ejecutarla
+
+===== JVM mode
+
+[source,shell]
+----
+$ mvn clean package -Denforcer.skip=true
+$ java -jar target/camel-quarkus-twitter-websocket-0.4.0-runner.jar
+...
+[io.quarkus] (main) Quarkus 0.4.0 started in 2.163s
+----
+
+===== Native mode
+
+Requiere GraalVM. Chequear https://camel.apache.org/camel-quarkus/latest/first-steps.html#_prerequisites[Camel Quarkus User guide].
+
+[source,shell]
+----
+$ mvn clean package -Denforcer.skip=true -Pnative
+$ ./target/*-runner
+...
+[io.quarkus] (main) Quarkus 0.4.0 started in 0.023s
+...
+----
+
+=== Empaquetar la aplicación en Contenedores y publicarla en Kubernetes
+
+===== JVM mode
+
+[source,shell]
+----
+$ docker build -f src/main/docker/Dockerfile.jvm -t [repositorio]/[nombreImagen] .
+$ kubectl create deployment quarkus-twitter-websocket-jvm --image=jroporto/quarkus-timer-websocket-jvm
+----
+
+===== Native mode
+
+[source,shell]
+----
+$ docker build -f src/main/docker/Dockerfile.native -t [repositorio]/[nombreImagen] .
+$ kubectl create deployment quarkus-timer-websocket-native --image=jroporto/quarkus-timer-websocket-native
+----
+
+
